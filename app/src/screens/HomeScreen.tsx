@@ -46,7 +46,7 @@ export const HomeScreen = ({ navigation }: any) => {
   const quickActions = [
     { icon: 'calendar-month' as const, label: 'Book\nAppointment', bg: colors.featureBlue, fg: colors.featureBlueFg, nav: 'Appointments' },
     { icon: 'medication' as const, label: 'Medication\nReminder', bg: colors.featureGreen, fg: colors.featureGreenFg, nav: 'Tracker', params: { screen: 'MedicationTracker' } },
-    { icon: 'monitoring' as const, label: 'Symptom\nTracker', bg: colors.featureOrange, fg: colors.featureOrangeFg, nav: 'Tracker' },
+    { icon: 'show-chart' as const, label: 'Symptom\nTracker', bg: colors.featureOrange, fg: colors.featureOrangeFg, nav: 'Tracker' },
     { icon: 'near-me' as const, label: 'Hospital\nNavigation', bg: colors.featurePurple, fg: colors.featurePurpleFg, nav: 'Profile', params: { screen: 'HospitalNavigation' } },
   ];
 
