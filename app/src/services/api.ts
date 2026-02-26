@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // For RENDER production: use your Render URL
 const API_BASE_URL = __DEV__
     ? 'http://192.168.31.28:5020/api'       // 👈 Local dev: your computer's IP
-    : 'https://healpath-api.onrender.com/api'; // 👈 Production: update after Render deploy
+    : 'https://healthcare-gclg.onrender.com/api'; // 👈 Production: Render deploy
 
 const api = axios.create({
     baseURL: API_BASE_URL,
