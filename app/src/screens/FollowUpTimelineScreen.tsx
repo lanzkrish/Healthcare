@@ -33,14 +33,8 @@ export const FollowUpTimelineScreen = ({ navigation }: any) => {
   const completed = followUps.filter((f) => f.status === 'completed');
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { backgroundColor: colors.surface }]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={24} color={colors.text} />
-        </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>Follow-up Timeline</Text>
-        <View style={{ width: 24 }} />
-      </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
+
 
       <ScrollView contentContainerStyle={styles.scroll}>
         {pending.length > 0 && (

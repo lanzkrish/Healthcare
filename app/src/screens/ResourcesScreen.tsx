@@ -32,10 +32,8 @@ export const ResourcesScreen = () => {
   const [expandedFaq, setExpandedFaq] = React.useState<number | null>(null);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { backgroundColor: colors.surface }]}>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>Resources & Support</Text>
-      </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
+
 
       <ScrollView contentContainerStyle={styles.scroll}>
         {/* Educational Resources */}

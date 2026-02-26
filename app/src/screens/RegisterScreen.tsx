@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   backBtn: { width: 48, height: 48, borderRadius: 24, justifyContent: 'center', alignItems: 'center' },
   topTitle: { fontSize: FontSize.lg, fontWeight: '700' },
   headerContent: { paddingTop: 8, paddingBottom: 16 },
-  title: { fontSize: 32, fontWeight: '800', letterSpacing: -1 },
+  title: { fontSize: 32, fontFamily: 'Comfortaa_700Bold', letterSpacing: -1 },
   subtitle: { fontSize: FontSize.base, marginTop: 8 },
   form: { gap: 4 },
   label: { fontSize: FontSize.md, fontWeight: '600', marginBottom: 8 },

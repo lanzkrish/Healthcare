@@ -56,16 +56,13 @@ export const SymptomTrackerScreen = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { backgroundColor: colors.surface }]}>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>Symptom Tracker</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('MedicationTracker')}>
-          <Text style={[styles.navLink, { color: colors.accentBlue }]}>Medications →</Text>
-        </TouchableOpacity>
-      </View>
-
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
       <ScrollView contentContainerStyle={styles.scroll}>
-        {/* Mood Selection */}
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingHorizontal: Spacing.lg }}>
+          <TouchableOpacity onPress={() => navigation.navigate('MedicationTracker')}>
+            <Text style={[styles.navLink, { color: colors.accentBlue }]}>Medications →</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.section}>
           <SectionHeader title="How are you feeling?" />
           <View style={styles.moodRow}>
@@ -130,7 +127,7 @@ export const SymptomTrackerScreen = ({ navigation }: any) => {
           />
         </View>
 
-        <View style={{ paddingHorizontal: Spacing.lg, paddingBottom: 32 }}>
+        <View style={{ paddingHorizontal: Spacing.lg, paddingBottom: 32 , marginTop:16}}>
           <PrimaryButton title="Log Symptoms" onPress={handleSubmit} loading={isLoading} />
         </View>
 

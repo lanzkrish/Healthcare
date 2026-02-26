@@ -66,6 +66,7 @@ export const MainTabs = () => {
 
   return (
     <Tab.Navigator
+      safeAreaInsets={{ bottom: 0 }}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ color }) => (
@@ -73,16 +74,20 @@ export const MainTabs = () => {
         ),
         tabBarActiveTintColor: colors.text,
         tabBarInactiveTintColor: colors.textTertiary,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
-          paddingTop: 8,
-          paddingBottom: 8,
+          borderTopWidth: 0.5,
+          paddingBottom: 10,
           height: 65,
         },
         tabBarLabelStyle: {
           fontSize: 10,
           fontWeight: '600' as const,
+        },
+        sceneStyle: {
+          backgroundColor: colors.background,
         },
       })}
     >

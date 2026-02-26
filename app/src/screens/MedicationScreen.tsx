@@ -74,22 +74,19 @@ export const MedicationScreen = ({ navigation }: any) => {
   );
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { backgroundColor: colors.surface }]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={24} color={colors.text} />
-        </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>Medications</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('FollowUpTimeline')}>
-          <Text style={[styles.navLink, { color: colors.accentBlue }]}>Timeline →</Text>
-        </TouchableOpacity>
-      </View>
-
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
       <FlatList
         data={activeMeds}
         keyExtractor={(item) => item._id}
         renderItem={renderMed}
         contentContainerStyle={styles.list}
+        ListHeaderComponent={
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: Spacing.md }}>
+            <TouchableOpacity onPress={() => navigation.navigate('FollowUpTimeline')}>
+              <Text style={[styles.navLink, { color: colors.accentBlue }]}>Timeline →</Text>
+            </TouchableOpacity>
+          </View>
+        }
         refreshing={isLoading}
         onRefresh={fetchMedications}
         ListEmptyComponent={

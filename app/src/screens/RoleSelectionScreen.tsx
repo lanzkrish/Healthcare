@@ -3,7 +3,7 @@
  * User selects Patient or Caregiver role before registration
  */
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
@@ -36,9 +36,7 @@ export const RoleSelectionScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
-        <View style={[styles.iconCircle, { backgroundColor: colors.primary }]}>
-          <MaterialIcons name="medical-services" size={32} color={colors.accentBlue} />
-        </View>
+        <Image source={require('../../assets/splash-screen.png')} style={styles.logoImage} />
         <Text style={[styles.title, { color: colors.text }]}>Welcome to HealPath</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           How would you like to use the app?
@@ -100,7 +98,8 @@ const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: Spacing.xxl },
   header: { alignItems: 'center', paddingTop: 40, paddingBottom: 32 },
   iconCircle: { width: 72, height: 72, borderRadius: 36, justifyContent: 'center', alignItems: 'center', marginBottom: 20 },
-  title: { fontSize: FontSize.xxl, fontWeight: '800', letterSpacing: -0.5 },
+  logoImage: { width: 72, height: 72, resizeMode: 'contain', marginBottom: 20 },
+  title: { fontSize: FontSize.xxl, fontFamily: 'Comfortaa_700Bold', letterSpacing: -0.5 },
   subtitle: { fontSize: FontSize.base, marginTop: 8, textAlign: 'center' },
   roles: { gap: 16 },
   roleCard: { flexDirection: 'row', alignItems: 'center', padding: 20, borderRadius: BorderRadius.lg },

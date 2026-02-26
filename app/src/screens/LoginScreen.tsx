@@ -2,7 +2,7 @@
  * Login Screen - Email/password login with form validation
  */
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
@@ -45,9 +45,7 @@ export const LoginScreen = ({ navigation }: any) => {
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           {/* Header */}
           <View style={styles.header}>
-            <View style={[styles.iconCircle, { backgroundColor: colors.primary }]}>
-              <MaterialIcons name="medical-services" size={36} color={colors.accentBlue} />
-            </View>
+            <Image source={require('../../assets/splash-screen.png')} style={styles.logoImage} />
             <Text style={[styles.title, { color: colors.text }]}>Welcome Back</Text>
             <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
               Please enter your details to sign in
@@ -134,7 +132,8 @@ const styles = StyleSheet.create({
   scroll: { flexGrow: 1, paddingHorizontal: Spacing.xxl },
   header: { alignItems: 'center', paddingTop: 48, paddingBottom: 32 },
   iconCircle: { width: 80, height: 80, borderRadius: 40, justifyContent: 'center', alignItems: 'center', marginBottom: 24 },
-  title: { fontSize: 32, fontWeight: '800', letterSpacing: -1 },
+  logoImage: { width: 80, height: 80, resizeMode: 'contain', marginBottom: 24 },
+  title: { fontSize: 32, fontFamily: 'Comfortaa_700Bold', letterSpacing: -1 },
   subtitle: { fontSize: FontSize.base, marginTop: 8 },
   form: { paddingVertical: 12 },
   forgotLink: { alignSelf: 'flex-end', marginTop: -8 },

@@ -3,7 +3,7 @@
  * Main landing screen with greeting, next appointment card, quick actions, and resources
  */
 import React, { useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, RefreshControl, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
@@ -20,6 +20,10 @@ export const HomeScreen = ({ navigation }: any) => {
   const { appointments, fetchAppointments } = useAppointmentStore();
   const { medications, fetchMedications } = useMedicationStore();
   const [refreshing, setRefreshing] = React.useState(false);
+
+  const handleBellPress = () => {
+    Alert.alert('Notifications', 'Push notifications will be available in the development build. Use EAS Build to test.');
+  };
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good Morning' : hour < 17 ? 'Good Afternoon' : 'Good Evening';
@@ -51,28 +55,18 @@ export const HomeScreen = ({ navigation }: any) => {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: colors.surface }]}>
-        <View style={[styles.avatar, { backgroundColor: colors.primary }]}>
-          <MaterialIcons name="person" size={24} color={colors.accentBlue} />
-        </View>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>HealPath</Text>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity style={[styles.iconBtn, { backgroundColor: colors.surfaceSecondary }]}>
-            <MaterialIcons name="search" size={22} color={colors.textSecondary} />
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.iconBtn, { backgroundColor: colors.surfaceSecondary }]}>
-            <MaterialIcons name="notifications" size={22} color={colors.textSecondary} />
-            <View style={[styles.badge, { backgroundColor: colors.error }]} />
-          </TouchableOpacity>
-        </View>
-      </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
 
       <ScrollView
         style={styles.scrollView}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.accentBlue} />}
       >
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingHorizontal: Spacing.lg, paddingTop: Spacing.sm }}>
+          <TouchableOpacity onPress={handleBellPress} style={{ width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.surfaceSecondary }}>
+            <MaterialIcons name="notifications" size={22} color={colors.textSecondary} />
+            <View style={{ position: 'absolute', top: 8, right: 8, width: 8, height: 8, borderRadius: 4, backgroundColor: colors.error }} />
+          </TouchableOpacity>
+        </View>
         {/* Greeting */}
         <View style={styles.greeting}>
           <Text style={[styles.greetingText, { color: colors.text }]}>
@@ -205,15 +199,7 @@ export const HomeScreen = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: {
-    flexDirection: 'row', alignItems: 'center', paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md, elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05,
-  },
-  avatar: { width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' },
-  headerTitle: { flex: 1, fontSize: FontSize.lg, fontWeight: '800', paddingLeft: 12 },
-  headerIcons: { flexDirection: 'row', gap: 8 },
-  iconBtn: { width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' },
-  badge: { position: 'absolute', top: 8, right: 8, width: 8, height: 8, borderRadius: 4 },
+
   scrollView: { flex: 1 },
   greeting: { padding: Spacing.lg, paddingTop: Spacing.xxl },
   greetingText: { fontSize: FontSize.xxl, fontWeight: '800', letterSpacing: -0.5 },

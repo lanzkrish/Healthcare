@@ -33,10 +33,8 @@ export const ProfileScreen = ({ navigation }: any) => {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={[styles.header, { backgroundColor: colors.surface }]}>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>Profile</Text>
-      </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
+
 
       <ScrollView contentContainerStyle={styles.scroll}>
         {/* User Info Card */}
