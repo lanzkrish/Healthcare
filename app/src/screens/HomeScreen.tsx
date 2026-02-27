@@ -2,8 +2,10 @@
  * Home Dashboard Screen
  * Main landing screen with greeting, next appointment card, quick actions, and resources
  */
-import React, { useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, RefreshControl, Alert } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, RefreshControl, Alert, Platform } from 'react-native';
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/useTheme';
@@ -13,6 +15,17 @@ import { useMedicationStore } from '../store/medicationStore';
 import { Card } from '../components/Card';
 import { SectionHeader } from '../components/SectionHeader';
 import { BorderRadius, FontSize, Spacing } from '../utils/theme';
+import api from '../services/api';
+
+// Configure how notifications appear when app is in foreground
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 
 export const HomeScreen = ({ navigation }: any) => {
   const { colors } = useTheme();
@@ -20,9 +33,89 @@ export const HomeScreen = ({ navigation }: any) => {
   const { appointments, fetchAppointments } = useAppointmentStore();
   const { medications, fetchMedications } = useMedicationStore();
   const [refreshing, setRefreshing] = React.useState(false);
+  const [pushToken, setPushToken] = useState<string | null>(null);
+  const notificationListener = useRef<Notifications.EventSubscription | null>(null);
+  const responseListener = useRef<Notifications.EventSubscription | null>(null);
+
+  // Register for push notifications (works in production builds, fails gracefully in Expo Go)
+  useEffect(() => {
+    registerForPushNotifications();
+
+    // Listen for incoming notifications while app is open
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+      console.log('📩 Notification received:', notification.request.content);
+    });
+
+    // Listen for notification taps
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+      console.log('👆 Notification tapped:', response.notification.request.content);
+    });
+
+    return () => {
+      if (notificationListener.current) notificationListener.current.remove();
+      if (responseListener.current) responseListener.current.remove();
+    };
+  }, []);
+
+  const registerForPushNotifications = async () => {
+    try {
+      if (!Device.isDevice) {
+        console.log('Push notifications require a physical device');
+        return;
+      }
+
+      if (Platform.OS === 'android') {
+        await Notifications.setNotificationChannelAsync('default', {
+          name: 'HealPath',
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: '#007AFF',
+        });
+      }
+
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        console.log('Push notification permission denied');
+        return;
+      }
+
+      const token = (await Notifications.getExpoPushTokenAsync({
+        projectId: 'f49c4135-9e97-4a24-90ea-275c901c356c',
+      })).data;
+      setPushToken(token);
+      console.log('🔔 Push Token:', token);
+
+      // Save token to server so it can send notifications to this device
+      try {
+        await api.put('/auth/push-token', { expoPushToken: token });
+        console.log('✅ Push token saved to server');
+      } catch (apiError) {
+        console.log('⚠️ Could not save push token to server (will retry next launch):', apiError);
+      }
+    } catch (error) {
+      // Fails silently in Expo Go (SDK 53+), works in production builds
+      console.log('Push notification setup skipped:', error);
+    }
+  };
 
   const handleBellPress = () => {
-    Alert.alert('Notifications', 'Push notifications will be available in the development build. Use EAS Build to test.');
+    if (pushToken) {
+      Alert.alert(
+        '🔔 Push Token',
+        `${pushToken}\n\nTest at: expo.dev/notifications\nPaste this token and send a test notification.`,
+        [{ text: 'OK' }]
+      );
+    } else {
+      Alert.alert(
+        'Notifications',
+        'Push token not available.\n\n• In Expo Go: not supported (SDK 53+)\n• In APK/IPA build: should work automatically',
+      );
+    }
   };
 
   const hour = new Date().getHours();
