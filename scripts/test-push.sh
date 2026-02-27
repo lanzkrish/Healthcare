@@ -2,11 +2,11 @@
 # ──────────────────────────────────────────────────────────────
 # Push Notification Test Script
 # ──────────────────────────────────────────────────────────────
-# Usage:
-#   ./scripts/test-push.sh <EXPO_PUSH_TOKEN>
+# Usage (IMPORTANT: wrap token in quotes to avoid zsh glob errors):
+#   ./scripts/test-push.sh "ExponentPushToken[YOUR_TOKEN]"
 #
 # Example:
-#   ./scripts/test-push.sh ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]
+#   ./scripts/test-push.sh "ExponentPushToken[V-_IQTDz_47HBgvbK0tn1E]"
 #
 # The token is shown when you tap the 🔔 bell icon in the app
 # (must be a production build — APK/IPA, NOT Expo Go)

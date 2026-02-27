@@ -49,7 +49,14 @@
       "url": "https://u.expo.dev/f49c4135-9e97-4a24-90ea-275c901c356c"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#007AFF"
+        }
+      ]
     ]
   }
 }
