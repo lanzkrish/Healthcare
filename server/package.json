@@ -1,6 +1,6 @@
 {
     "name": "healpath-server",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "HealPath Healthcare Backend API",
     "main": "index.js",
     "engines": {

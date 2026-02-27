@@ -4,6 +4,7 @@
  */
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, RefreshControl, Alert, Platform } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -108,7 +109,16 @@ export const HomeScreen = ({ navigation }: any) => {
       Alert.alert(
         '🔔 Push Token',
         `${pushToken}\n\nTest at: expo.dev/notifications\nPaste this token and send a test notification.`,
-        [{ text: 'OK' }]
+        [
+          {
+            text: 'Copy Token',
+            onPress: async () => {
+              await Clipboard.setStringAsync(pushToken);
+              Alert.alert('✅ Copied!', 'Push token copied to clipboard.');
+            },
+          },
+          { text: 'OK' },
+        ]
       );
     } else {
       Alert.alert(
